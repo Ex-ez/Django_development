@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-yp$crm(zuy#pb&7%*bb63-36mr4+%zqsd$@&))k5hf3qjol61i
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    "223.130.138.203",
+    "223.130.139.108",
 ]
 
 
