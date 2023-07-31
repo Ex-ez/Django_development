@@ -25,7 +25,9 @@ SECRET_KEY = 'django-insecure-yp$crm(zuy#pb&7%*bb63-36mr4+%zqsd$@&))k5hf3qjol61i
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    "223.130.138.203",
+]
 
 
 # Application definition
