@@ -1,3 +1,6 @@
+cd lion_django_app
+
+
 #git pull
 APP_NAME=lion_app
 echo "git pull"
@@ -10,5 +13,5 @@ else
   source venv/bin/activate
 fi
 #runserver
-echo "reunserver"
+echo "runserver"
 python $APP_NAME/manage.py runserver 0.0.0.0:8000
