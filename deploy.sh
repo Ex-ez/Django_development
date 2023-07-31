@@ -1,7 +1,7 @@
-# git git clone
+# git clone
 echo "start to clone"
-git clone https://github.com/Ex-ez/Django_development
-cd DJANGO_DEVELOPMENT
+git clone https://github.com/teacherSsamko/lion_django_app.git
+cd lion_django_app
 
 # venv 설치
 echo "start to install venv"
@@ -12,7 +12,7 @@ echo "start to make venv"
 python3 -m venv venv
 
 # 가상환경 작동
-echo "start to active venv"
+echo "start to activate venv"
 source venv/bin/activate
 
 # pip install
