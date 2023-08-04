@@ -26,9 +26,12 @@ SECRET_KEY = 'django-insecure-yp$crm(zuy#pb&7%*bb63-36mr4+%zqsd$@&))k5hf3qjol61i
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    "223.130.139.108",
+    "localhost",
 ]
 
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:8888",
+]
 
 # Application definition
 
@@ -40,6 +43,15 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 ]
+
+## Third party Aops
+INSTALLED_APPS += []
+
+## Created Apps
+INSTALLED_APPS += [
+    'Forum',
+]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -118,6 +130,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = '/var/www/html/static'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
