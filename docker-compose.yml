@@ -14,6 +14,8 @@ services:
       - "staticfiles:/var/www/html/static"
     command:
       - "/start"
+    env_file:
+      - ./prod.env
 
   nginx:
     depends_on:
