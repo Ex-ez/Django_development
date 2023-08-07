@@ -30,14 +30,13 @@ LOCAL_IP = os.getenv('LOCAL_IP', '')
 ALLOWED_HOSTS = [
     "localhost",
     LOCAL_IP,
-
 ]
 
 CSRF_TRUSTED_ORIGINS = [
     "http://localhost:8888",
-    "http://{LOCAL_IP}:8888",
-
+    f"http://{LOCAL_IP}:8888",
 ]
+
 
 # Application definition
 
@@ -50,14 +49,13 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 ]
 
-## Third party Aops
+## Third party Apps
 INSTALLED_APPS += []
 
 ## Created Apps
 INSTALLED_APPS += [
     'Forum',
 ]
-
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -96,10 +94,10 @@ WSGI_APPLICATION = 'lion_app.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'os.getenv("POSTGRES_DB", "postgres)',
-        'USER': 'os.getenv("POSTGRES_USER", "postgres)',
-        'PASSWORD': 'os.getenv("POSTGRES_PASSWORD", "postgres)',
-        'HOST': 'os.getenv("DB_HOST", "db)',
+        'NAME': os.getenv('POSTGRES_DB', 'postgres'),
+        'USER': os.getenv('POSTGRES_USER', 'postgres'),
+        'PASSWORD': os.getenv('POSTGRES_PASSWORD', 'postgres'),
+        'HOST': os.getenv('DB_HOST', 'db'),
     }
 }
 
