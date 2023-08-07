@@ -17,6 +17,10 @@ COPY ./scripts/start /start
 RUN sed -i 's/\r$//g' /start
 RUN chmod +x /start
 
+COPY ./scripts/start /entrypoint
+RUN sed -i 's/\r$//g' /entrypoint
+RUN chmod +x /entrypoint
+
 
 RUN if [-e /var/www/html/static ]; then rm -rf /var/www/html/static; fi
 RUN python manage.py collectstatic -c
