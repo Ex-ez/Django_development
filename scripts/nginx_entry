@@ -1,0 +1,5 @@
+#!/bin/bash
+
+# django site file 변경
+sed -i "s/localhost/$LOCAL_IP/g" /etc/nginx/sites-available/django
+service nginx restart
