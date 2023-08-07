@@ -24,6 +24,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.nginx_ubt
+      args: 
+        LOCAL_IP: "223.130.160.123"
     image: lion-nginx
     ports:
       - "8888:80"
