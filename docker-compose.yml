@@ -49,3 +49,4 @@ services:
 volumes:
   staticfiles:
   postgres_data:
+  
