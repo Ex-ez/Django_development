@@ -12,7 +12,7 @@ postgres_ready() {
             user="${POSTGRES_USER}",
             password="${POSTGRES_PASSWORD}",
             host="${DB_HOST}",
-            port=5432,
+            port="${POSTGRES_PORT}",
         }
 eexcept psycopg2.OperationalError:
         sys.exit(-1)
@@ -27,3 +27,5 @@ until postgres_ready; do
 done
 
 >&2 echo "PostgreSQL is available"
+
+exec "$@"
