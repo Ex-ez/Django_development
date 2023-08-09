@@ -1,24 +1,24 @@
-from django.http import JsonResponse
 from pymongo import MongoClient
-from rest_framework.views import import ViewSet
+from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
+from rest_framework import status
 
 from .serializers import BlogSerializer
-from rest_framework import status
+
 
 client = MongoClient(host="mongo")
 db = client.likelion
 
 
 class BlogViewSet(ViewSet):
-    serializers_class = BlogSerializer
+    serializer_class = BlogSerializer
 
-    def list(selp, request):
+    def list(self, request):
         return Response()
 
-    def craete(self, request):
+    def create(self, request):
         """
-        request.date = {
+        request.data = {
             "title": "My second blog",
             "content": "This is my second blog",
             "author": "lion",
@@ -34,31 +34,8 @@ class BlogViewSet(ViewSet):
     def update(self, request):
         ...
 
-    def retrive(self, request):
+    def retrieve(self, request):
         ...
 
     def destroy(self, request):
         ...
-
-
-def create_blog(request) -> bool:
-    blog = {
-        "title": "My second blog",
-        "content": "This is my second blog",
-        "author": "lion",
-    }
-    try:
-        db.blogs.insert_one(blog)
-        return True
-    except Exception as e:
-        print(e)
-        return False
-
-def update_blog():
-    ...
-
-def delete_blog():
-    ...
-
-def read_blog():
-    ...
