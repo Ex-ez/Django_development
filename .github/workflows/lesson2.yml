@@ -20,3 +20,4 @@ jobs:
                 script: |
                     cd Django_development
                     git pull
+                    docker-compose restart
