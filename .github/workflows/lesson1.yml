@@ -13,5 +13,15 @@ jobs:
               run: echo "This event is ${{github.event_name}}"
             #   run: echo "This event is $GITHUB_EVENT_NAME"
             - name: echo github context
-              run: echo "s{{github.repositoryUrl}}"
+              run: echo "${{github.repositoryUrl}}"
+
+            - name: list files
+              run: ls -al
               
+    docker-compose-build:
+        name: docker compose build
+        runs-on: ununtu-latest
+        steps:
+            - uses: actions/checkout@v3
+            - name: list files
+              run: ls -al
