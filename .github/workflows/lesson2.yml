@@ -10,7 +10,7 @@ jobs:
         name: deploy
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v2
+            - uses: actions/checkout@v3
             - name: git pull via SSH
               uses: appleboy/ssh-action@v1.0.0
               with:
@@ -20,4 +20,5 @@ jobs:
                 script: |
                     cd Django_development
                     git pull
-                    docker compose -f docker-compos.prod.yml restart lion-app
+                    docker-compose -f docker-compose.prod.yml restart lion-app
+                    
