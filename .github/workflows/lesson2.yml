@@ -20,5 +20,5 @@ jobs:
                 script: |
                     cd Django_development
                     git pull
-                    docker-compose -f docker-compose.prod.yml restart lion-app
+                    docker-compose -f docker-compose.prod.yml up --build
                     
