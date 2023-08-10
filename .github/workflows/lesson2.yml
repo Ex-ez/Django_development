@@ -20,5 +20,5 @@ jobs:
                 script: |
                     cd Django_development
                     git pull
-                    docker-compose -f docker-compose.prod.yml up --build
+                    docker-compose -f docker-compose.prod.yml up --build --env-file .envs/prod/django
                     
