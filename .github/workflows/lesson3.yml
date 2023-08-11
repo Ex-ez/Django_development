@@ -6,6 +6,7 @@ on:
             - 'main'
 
 env:
+    IMAGE: ${{ vars.NCR_REGISTRY }}/lion-app
     IMAGE_TAG: ${{ vars.NCR_REGISTRY }}/lion-app:latest
 
 jobs:
@@ -22,11 +23,16 @@ jobs:
                 registry: ${{ vars.NCR_REGISTRY }}
                 username: ${{ secrets.NCR_ACCESS_KEY_ID }}
                 password: ${{ secrets.NCR_SECRET_KEY }}
+
+            - name: Get current timestamp
+              id: timestamp
+              run: echo "timestamp=$(date '+%s')" >> "$GITHUB_OUTPUT"
+
             - name: Build and Push
               uses: docker/build-push-action@v4
               with:
                 context: lion_app
-                tags: ${{ env.IMAGE_TAG }}
+                tags: ${{ env.IMAGE_TAG }},"${{ env.IMAGE }}:${{ steps.timestamp.outputs.timestamp }}"
                 push: true
 
     deployment:
@@ -42,7 +48,7 @@ jobs:
                 username: ${{ secrets.USERNAME }}
                 password: ${{ secrets.PASSWORD }}
                 script: |
-                    cd Django_development
+                    cd lion_django_app
                     docker login \
                     ${{ vars.NCR_REGISTRY }} \
                     -u ${{ secrets.NCR_ACCESS_KEY_ID }} \
@@ -58,6 +64,6 @@ jobs:
                     --env-file .envs/prod/server \
                     lion-cr.kr.ncr.ntruss.com/lion-app:latest \
                     /start
-                    
+
             - name: echo IMAGE_TAG
               run: echo $IMAGE_TAG
