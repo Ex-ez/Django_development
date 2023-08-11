@@ -9,7 +9,6 @@ env:
     IMAGE_TAG: ${{ vars.NCR_REGISTRY }}/lion-app:latest
 
 jobs:
-    # Build Image / Push Image to NCR
     build-and-push:
         name: Build and Push Image
         runs-on: ubuntu-latest
@@ -29,7 +28,7 @@ jobs:
                 context: lion_app
                 tags: ${{ env.IMAGE_TAG }}
                 push: true
-                 # Pull Image From NCR / Run new container with new image
+
     deployment:
         name: deploy
         runs-on: ubuntu-latest
