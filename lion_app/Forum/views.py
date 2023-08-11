@@ -6,12 +6,12 @@ from .serializers import TopicSerializer, PostSerializer
 
 
 
-@extend_schema(tags=["Topics"])
+@extend_schema(tags=["Topics", "Forum"])
 class TopicViewSet(viewsets.ModelViewSet):
     queryset = Topic.objects.all()
     serializer_class = TopicSerializer
 
-@extend_schema(tags=["Posts"])
+@extend_schema(tags=["Posts", "Forum"])
 class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
