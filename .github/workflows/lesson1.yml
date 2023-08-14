@@ -13,6 +13,7 @@ jobs:
               run: echo "This event is ${{github.event_name}}"
 
     docker-build:
+        if: ${{ !github.event.act }}
         name: docker build
         runs-on: ubuntu-latest
         steps:
