@@ -12,9 +12,8 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 import os
 from pathlib import Path
 
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 
 # Quick-start development settings - unsuitable for production
@@ -30,14 +29,13 @@ LOCAL_IP = os.getenv('LOCAL_IP', '')
 
 ALLOWED_HOSTS = [
     "localhost",
-    "223.130.160.123","lion-lb-18904309-980284cc24de.kr.lb.naverncp.com",
+    "lion-lb-18904307-df5b6f497fc4.kr.lb.naverncp.com",
     # LOCAL_IP,
 ]
 
 CSRF_TRUSTED_ORIGINS = [
     "http://localhost:8888",
-    "http://223.130.160.123",
-    "http://lion-lb-18904309-980284cc24de.kr.lb.naverncp.com:8888",
+    "http://lion-lb-18904307-df5b6f497fc4.kr.lb.naverncp.com",
     # f"http://{LOCAL_IP}:8888",
 ]
 
@@ -98,8 +96,10 @@ WSGI_APPLICATION = 'lion_app.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+#{"username":"postgres","password":"postgres","engine":"postgres","host":"127.0.0.1","port":"5432","dbname":"postgres"}
+
 DATABASES = {
-        'default': {
+    'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': os.getenv('POSTGRES_DB', 'postgres'),
         'USER': os.getenv('POSTGRES_USER', 'postgres'),
