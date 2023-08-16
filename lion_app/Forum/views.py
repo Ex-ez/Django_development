@@ -5,7 +5,6 @@ from .models import Topic, Post
 from .serializers import TopicSerializer, PostSerializer
 
 
-
 @extend_schema(tags=["Topics"])
 class TopicViewSet(viewsets.ModelViewSet):
     queryset = Topic.objects.all()
@@ -14,6 +13,7 @@ class TopicViewSet(viewsets.ModelViewSet):
     @extend_schema(summary="새 토픽 생성")
     def create(self, request, *args, **kwargs):
         return super().create(request, *args, **kwargs)
+
 
 @extend_schema(tags=["Posts"])
 class PostViewSet(viewsets.ModelViewSet):
