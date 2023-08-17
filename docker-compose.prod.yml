@@ -32,6 +32,6 @@ services:
       - "staticfiles:/var/www/html/static"
     env_file:
       - ./.envs/prod/server
-
+      
 volumes:
   staticfiles:

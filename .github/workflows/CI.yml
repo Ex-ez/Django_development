@@ -8,22 +8,22 @@ on:
 
 env:
     IMAGE: ${{ vars.NCR_REGISTRY }}/lion-app
-    IMAGE_TAG: ${{ vars.NCR_REGISTRY }}/lion-app:latest        
-    
+    IMAGE_TAG: ${{ vars.NCR_REGISTRY }}/lion-app:latest
+
 jobs:
-    lint: 
+    lint:
         name: Check lint (black)
         runs-on: ubuntu-latest
         steps:
-          - uses: actions/checkout@v3
-          - name: setup python
-            uses: actions/setup-python@v4
-            with:
-              python-version: '3.11'
-          - name: install black
-            run: pip install black
-          - name: check black
-            run: black --check lion_app
+            - uses: actions/checkout@v3
+            - name: setup python
+              uses: actions/setup-python@v4
+              with:
+                python-version: '3.11' 
+            - name: install black
+              run: pip install black
+            - name: check black
+              run: black --check lion_app
 
     build:
         needs: lint
