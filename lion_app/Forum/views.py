@@ -6,6 +6,7 @@ from rest_framework.response import Response
 
 from .models import Topic, Post, TopicGroupUser
 from .serializers import TopicSerializer, PostSerializer
+from rest_framework.decorators import action
 
 
 @extend_schema(tags=["Topic"])
@@ -16,6 +17,27 @@ class TopicViewSet(viewsets.ModelViewSet):
     @extend_schema(summary="새 토픽 생성")
     def create(self, request, *args, **kwargs):
         return super().create(request, *args, **kwargs)
+
+    @action(detail=True, methods=["get"], url_name="posts")
+    def posts(self, request, *args, **kwargs):
+        topic: Topic = self.get_object()
+        user = request.user
+
+        if topic.is_private:
+            qs = TopicGroupUser.objects.filter(
+                group__lte=TopicGroupUser.GroupChoices.common,
+                topic=topic,
+                user=user,
+            )
+            if not qs.exists():
+                return Response(
+                    status=status.HTTP_401_UNAUTHORIZED,
+                    data="This user is not allowed to read this topic",
+                )
+
+        posts = topic.posts
+        serializer = PostSerializer(posts, many=True)
+        return Response(data=serializer.data)
 
 
 @extend_schema(tags=["Post"])
