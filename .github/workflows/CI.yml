@@ -54,3 +54,7 @@ jobs:
                 --name test \
                 test-lion:test python --version
                 docker exec test python manage.py
+              
+            - name: post test
+              run: |
+                docker stop test && docker rm test
