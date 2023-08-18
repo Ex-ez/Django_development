@@ -5,11 +5,9 @@ services:
     depends_on:
       - db
     container_name: lion-app-test
-    build:
+    build: 
       context: lion_app
       dockerfile: Dockerfile
-    command:
-      - "python manage.py test"
     env_file:
       - ./.envs/local/django
       - ./.envs/local/db
