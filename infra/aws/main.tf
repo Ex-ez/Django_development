@@ -39,7 +39,7 @@ data "aws_iam_policy_document" "lion_ro" {
   }
 }
 
-resource "aws_iam_user_policy" "lb_ro" {
+resource "aws_iam_user_policy" "lion_ro" {
   name   = "tf-test"
   user   = aws_iam_user.lion.name
   policy = data.aws_iam_policy_document.lion_ro.json
