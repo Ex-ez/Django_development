@@ -33,11 +33,16 @@ resource "ncloud_subnet" "main" {
 }
 
 resource "ncloud_access_control_group" "be" {
-  vpc_no = ncloud_vpc.main.vpc_no
+  vpc_no      = ncloud_vpc.main.vpc_no
+  name = "be-acg"
 }
 
-resource "ncloud_access_control_group_rule" "acg-rule" {
-  access_control_group_no = ncloud_access_control_group.acg.id
+data "ncloud_access_control_group" "selected" {
+    id = "124488" # lion-tf-default-acg
+}
+
+resource "ncloud_access_control_group_rule" "be" {
+  access_control_group_no = ncloud_access_control_group.be.id
 
   inbound {
     protocol    = "TCP"
@@ -47,6 +52,15 @@ resource "ncloud_access_control_group_rule" "acg-rule" {
   }
 }
 
+resource "ncloud_network_interface" "be" {
+    name                  = "be-nic"
+    subnet_no             = ncloud_subnet.main.id
+    access_control_groups = [
+      ncloud_vpc.main.default_access_control_group_no,
+      ncloud_access_control_group.be.id,
+    ]
+}
+
 resource "ncloud_server" "be" {
   subnet_no                 = ncloud_subnet.main.id
   name                      = "be-staging"
@@ -54,6 +68,11 @@ resource "ncloud_server" "be" {
   server_product_code = data.ncloud_server_products.sm.server_products[0].product_code
   login_key_name            = ncloud_login_key.loginkey.key_name
   init_script_no = ncloud_init_script.main.init_script_no
+
+  network_interface {
+    network_interface_no = ncloud_network_interface.be.id
+    order =0
+  }
 }
 
 resource "ncloud_init_script" "main" {
@@ -137,6 +156,31 @@ output "be-public_ip" {
 }
 
 # db
+resource "ncloud_access_control_group" "db" {
+  vpc_no      = ncloud_vpc.main.vpc_no
+  name = "db-staging"
+}
+
+resource "ncloud_access_control_group_rule" "db" {
+  access_control_group_no = ncloud_access_control_group.db.id
+
+  inbound {
+    protocol    = "TCP"
+    ip_block    = "0.0.0.0/0"
+    port_range  = "5432"
+    description = "accept 5432 port for postgresql"
+  }
+}
+
+resource "ncloud_network_interface" "db" {
+    name                  = "db-nic"
+    subnet_no             = ncloud_subnet.main.id
+    access_control_groups = [
+      ncloud_vpc.main.default_access_control_group_no,
+      ncloud_access_control_group.db.id,
+    ]
+}
+
 
 resource "ncloud_server" "db" {
   subnet_no                 = ncloud_subnet.main.id
@@ -145,8 +189,12 @@ resource "ncloud_server" "db" {
   server_product_code = data.ncloud_server_products.sm.server_products[0].product_code
   login_key_name            = ncloud_login_key.loginkey.key_name
   init_script_no = ncloud_init_script.main.init_script_no
-}
 
+  network_interface{
+    network_interface_no = ncloud_network_interface.db.id
+    order = 0
+  }
+}
 resource "ncloud_public_ip" "db" {
     server_instance_no = ncloud_server.db.instance_no
 }
