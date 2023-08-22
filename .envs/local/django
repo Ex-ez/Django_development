@@ -1,2 +1,6 @@
 DB_HOST=db
+DJANGO_SETTINGS_MODULE="lion_app.settings.local"
+DJANGO_SECRET_KEY="django-insecure-yp$crm(zuy#pb&7%*bb63-36mr4+%zqsd$@&))k5hf3qjol61i"
+
+
 AWS_SECRET_NAME=like/lion/lecture
