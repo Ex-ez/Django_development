@@ -53,12 +53,12 @@ resource "ncloud_access_control_group" "be" {
   name = "be-acg"
 }
 
-data "ncloud_access_control_group" "selected" {
+data "ncloud_access_control_group" "default" {
     id = "124488" # lion-tf-default-acg
 }
 
 resource "ncloud_access_control_group_rule" "be" {
-  access_control_group_no = ncloud_access_control_group.be.id
+ access_control_group_no = ncloud_access_control_group.be.id
 
   inbound {
     protocol    = "TCP"
@@ -72,8 +72,8 @@ resource "ncloud_network_interface" "be" {
     name                  = "be-nic"
     subnet_no             = ncloud_subnet.main.id
     access_control_groups = [
-      ncloud_vpc.main.default_access_control_group_no,
-      ncloud_access_control_group.be.id,
+        ncloud_vpc.main.default_access_control_group_no,
+        ncloud_access_control_group.be.id,
     ]
 }
 
@@ -83,27 +83,62 @@ resource "ncloud_server" "be" {
   server_image_product_code = "SW.VSVR.OS.LNX64.UBNTU.SVR2004.B050"
   server_product_code = data.ncloud_server_products.sm.server_products[0].product_code
   login_key_name            = ncloud_login_key.loginkey.key_name
-  init_script_no = ncloud_init_script.main.init_script_no
+  init_script_no = ncloud_init_script.be.init_script_no
 
   network_interface {
     network_interface_no = ncloud_network_interface.be.id
-    order =0
+    order = 0
   }
 }
 
-resource "ncloud_init_script" "main" {
-  name    = "set-server-tf"
-  content = templatefile("${path.module}/main_init_script.tftpl", {
+resource "ncloud_init_script" "be" {
+  name    = "set-be-tf"
+  content = templatefile("${path.module}/be_init_script.tftpl", {
     password = var.password
+    db = var.db
+    db_user = var.db_user
+    db_password = var.db_password
+    db_port = var.db_port
+    db_host = var.db_host
+    django_secret_key = var.django_secret_key
+    django_settings_module = var.django_settings_module
   })
 }
 
+variable "db" {
+  type = string
+}
+
+variable "db_user" {
+  type = string
+}
+
+variable "db_password" {
+  type = string
+}
+
+variable "db_port" {
+  type = string
+}
+
+variable "db_host" {
+  type = string
+}
+
+variable "django_secret_key" {
+  type = string
+}
+
+variable "django_settings_module" {
+  type = string
+}
+
 resource "ncloud_public_ip" "be" {
-    server_instance_no = ncloud_server.be.instance_no
+  server_instance_no = ncloud_server.be.instance_no
 }
 
 data "ncloud_server_products" "sm" {
-  server_image_product_code = "SW.VSVR.OS.LNX64.UBNTU.SVR2004.B050" 
+  server_image_product_code = "SW.VSVR.OS.LNX64.UBNTU.SVR2004.B050"
 
   filter {
     name   = "product_code"
@@ -141,18 +176,18 @@ output "products" {
   }
 }
 
-output "be-public_ip" {
+output "be_public_ip" {
   value = ncloud_public_ip.be.public_ip
 }
 
-# db
+## db
 resource "ncloud_access_control_group" "db" {
   vpc_no      = ncloud_vpc.main.vpc_no
   name = "db-staging"
 }
 
 resource "ncloud_access_control_group_rule" "db" {
-  access_control_group_no = ncloud_access_control_group.db.id
+ access_control_group_no = ncloud_access_control_group.db.id
 
   inbound {
     protocol    = "TCP"
@@ -166,9 +201,20 @@ resource "ncloud_network_interface" "db" {
     name                  = "db-nic"
     subnet_no             = ncloud_subnet.main.id
     access_control_groups = [
-      ncloud_vpc.main.default_access_control_group_no,
-      ncloud_access_control_group.db.id,
+        ncloud_vpc.main.default_access_control_group_no,
+        ncloud_access_control_group.db.id,
     ]
+}
+
+resource "ncloud_init_script" "db" {
+  name    = "set-db-tf"
+  content = templatefile("${path.module}/db_init_script.tftpl", {
+    password = var.password
+    db = var.db
+    db_user = var.db_user
+    db_password = var.db_password
+    db_port = var.db_port
+  })
 }
 
 
@@ -178,18 +224,19 @@ resource "ncloud_server" "db" {
   server_image_product_code = "SW.VSVR.OS.LNX64.UBNTU.SVR2004.B050"
   server_product_code = data.ncloud_server_products.sm.server_products[0].product_code
   login_key_name            = ncloud_login_key.loginkey.key_name
-  init_script_no = ncloud_init_script.main.init_script_no
+  init_script_no = ncloud_init_script.db.init_script_no
 
-  network_interface{
+  network_interface {
     network_interface_no = ncloud_network_interface.db.id
     order = 0
   }
 }
+
 resource "ncloud_public_ip" "db" {
-    server_instance_no = ncloud_server.db.instance_no
+  server_instance_no = ncloud_server.db.instance_no
 }
 
-output "db-public_ip" {
+output "db_public_ip" {
   value = ncloud_public_ip.db.public_ip
 }
 
