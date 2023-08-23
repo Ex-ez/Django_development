@@ -1,6 +1,6 @@
 resource "ncloud_vpc" "main" {
   ipv4_cidr_block = "10.1.0.0/16"
-  name = "lion-tf"
+  name            = "lion-tf"
 }
 
 resource "ncloud_subnet" "main" {
@@ -10,7 +10,7 @@ resource "ncloud_subnet" "main" {
   network_acl_no = ncloud_vpc.main.default_network_acl_no
   subnet_type    = "PUBLIC"
   usage_type     = "GEN"
-  name = "lion-tf-sub"
+  name           = "lion-tf-sub"
 }
 
 resource "ncloud_subnet" "be-lb" {

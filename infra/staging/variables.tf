@@ -31,11 +31,11 @@ variable "NCP_ACCESS_KEY" {
 }
 
 variable "NCP_SECRET_KEY" {
-  type = string
+  type      = string
   sensitive = true
 }
 
 variable "password" {
-  type = string
+  type      = string
   sensitive = true
 }
