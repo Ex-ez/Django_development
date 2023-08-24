@@ -14,10 +14,6 @@ variable "db_port" {
   type = string
 }
 
-variable "db_host" {
-  type = string
-}
-
 variable "django_secret_key" {
   type = string
 }
