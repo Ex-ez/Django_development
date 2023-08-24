@@ -15,6 +15,13 @@ provider "ncloud" {
   support_vpc = true
 }
 
+module "vpc" {
+  source = "../modules/network"
+
+  env            = "staging"
+  NCP_ACCESS_KEY = var.NCP_ACCESS_KEY
+  NCP_SECRET_KEY = var.NCP_SECRET_KEY
+}
 module "servers" {
   source = "../modules/server"
 
@@ -26,4 +33,6 @@ module "servers" {
   NCP_ACCESS_KEY         = var.NCP_ACCESS_KEY
   NCP_SECRET_KEY         = var.NCP_SECRET_KEY
   password               = var.password
+  env                    = "staging"
+  vpc_id                 = module.vpc.vpc_id
 }
