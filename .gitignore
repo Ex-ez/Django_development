@@ -130,6 +130,7 @@ venv.bak/
 scoop
 .act_env
 .act_secret
+.db_envs
 # Spyder project settings
 .spyderproject
 .spyproject
