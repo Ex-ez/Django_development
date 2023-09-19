@@ -7,7 +7,7 @@ class HealthcheckMiddleware:
         self.get_response = get_response
 
     def __call__(self, request):
-        if settings.VERSION == "0.3.1":
+        if settings.VERSION == "0.3.0":
             return JsonResponse({"status": "unhealthy"}, status=500)
         if request.path == "/health/":
             return JsonResponse({"status": "ok"})

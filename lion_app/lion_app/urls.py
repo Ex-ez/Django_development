@@ -8,6 +8,7 @@ from blog.urls import router as blog_router
 from Forum.urls import router as forum_router
 from common.views import get_version
 
+
 urlpatterns = [
     path("version/", get_version, name="version"),
     path("admin/", admin.site.urls),
