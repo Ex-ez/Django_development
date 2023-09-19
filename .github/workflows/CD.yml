@@ -1,9 +1,9 @@
 name: CD using argocd
 
 on:
-    push:
-        tags:
-          - "*.*.*"
+    release:
+        types: [published]
+
 
 env:
     IMAGE: ${{ vars.NCR_REGISTRY }}/lion-app
@@ -36,4 +36,4 @@ jobs:
           with:
             github_token: ${{ secrets.GITHUB_TOKEN }}
             repository: Ex-ez/lion_infra
-            branch: main            
+            branch: main
